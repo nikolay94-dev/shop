@@ -87,10 +87,18 @@ class ProductController extends BaseProductController
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $error = null)
     {
-        parent::update($request, $id);
-        return redirect('/product');
+        $data = parent::update($request, $id);
+        if(!$data['error'])
+            return redirect('/product/'.$id);
+
+        return view('product.edit', [
+            'error_message' => $data['error'],
+            'product' => $data['product'],
+            'categories' => $data['categories'],
+            'categoriesAll' => Category::all()
+        ]);
     }
 
     /**

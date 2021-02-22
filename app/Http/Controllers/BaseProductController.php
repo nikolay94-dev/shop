@@ -110,7 +110,7 @@ abstract class BaseProductController extends Controller
      * @param  Request $request
      * @param  int  $id
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $error = null)
     {
         $validator = $this->productValidator->make($request->all());
         $data['error'] = $this->parseMessage->parseValidationErrorMessage(
@@ -123,6 +123,7 @@ abstract class BaseProductController extends Controller
         }
         $data['product'] = $product;
         $data['categories'] = $this->categoryRepository->getCategoriesField($product->categories, 'id');
+
         return $data;
     }
 
